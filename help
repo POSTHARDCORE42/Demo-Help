@@ -1,0 +1,95 @@
+Подключение к БД и выполнение запроса:
+csharp
+Copy code
+using System;
+using System.Data.SqlClient;
+
+namespace DatabaseExample
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            // Строка подключения к вашей БД
+            string connectionString = "Data Source=your_server;Initial Catalog=your_database;User ID=your_username;Password=your_password";
+
+            // Создание подключения
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    // Открытие подключения
+                    connection.Open();
+
+                    // Пример выполнения запроса SELECT
+                    string query = "SELECT * FROM YourTable";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                // Чтение данных
+                                string value = reader.GetString(0); // Пример получения данных из первого столбца
+                                Console.WriteLine(value);
+                            }
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+        }
+    }
+}
+Авторизация пользователя:
+csharp
+Copy code
+using System;
+using System.Data.SqlClient;
+
+namespace AuthorizationExample
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            string username = "user123"; // Имя пользователя
+            string password = "pass123"; // Пароль пользователя
+
+            string connectionString = "Data Source=your_server;Initial Catalog=your_database;User ID=your_username;Password=your_password";
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    connection.Open();
+
+                    string query = "SELECT COUNT(*) FROM Users WHERE Username = @username AND Password = @password";
+                    using (SqlCommand command = new SqlCommand(query, connection))
+                    {
+                        command.Parameters.AddWithValue("@username", username);
+                        command.Parameters.AddWithValue("@password", password);
+
+                        int count = (int)command.ExecuteScalar();
+
+                        if (count > 0)
+                        {
+                            Console.WriteLine("Пользователь аутентифицирован!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Ошибка аутентификации.");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine(ex.Message);
+                }
+            }
+        }
+    }
+}
