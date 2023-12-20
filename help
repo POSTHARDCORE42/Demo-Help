@@ -93,3 +93,31 @@ namespace AuthorizationExample
         }
     }
 }
+Пример простой авторизации через массивы:
+csharp
+Copy code
+string[] users = { "User1", "User2", "User3" };
+string[] passwords = { "Pass1", "Pass2", "Pass3" };
+
+string enteredUsername = "User2"; // Получаем имя пользователя и пароль откуда-то
+string enteredPassword = "Pass2";
+
+bool isAuthenticated = false;
+
+for (int i = 0; i < users.Length; i++)
+{
+    if (enteredUsername == users[i] && enteredPassword == passwords[i])
+    {
+        isAuthenticated = true;
+        break;
+    }
+}
+
+if (isAuthenticated)
+{
+    Console.WriteLine("Авторизация успешна!");
+}
+else
+{
+    Console.WriteLine("Ошибка авторизации!");
+}
