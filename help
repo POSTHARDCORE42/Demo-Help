@@ -118,6 +118,29 @@ if (isAuthenticated)
     Console.WriteLine("Авторизация успешна!");
 }
 else
+Создание базы данных:
+sql
+Copy code
+CREATE DATABASE YourDatabaseName;
+USE YourDatabaseName;
+Создание таблицы с автоинкрементным полем и внешним ключом:
+sql
+Copy code
+CREATE TABLE Table1 (
+    ID INT PRIMARY KEY IDENTITY(1,1), -- ID с автоинкрементом
+    Name NVARCHAR(50),
+    -- Другие поля таблицы
+);
+
+CREATE TABLE Table2 (
+    ID INT PRIMARY KEY IDENTITY(1,1), -- ID с автоинкрементом
+    Table1ID INT FOREIGN KEY REFERENCES Table1(ID),
+    Description NVARCHAR(100),
+    -- Другие поля таблицы
+);
+IDENTITY(1,1) означает, что поле ID будет автоматически увеличиваться на 1 для каждой новой записи, начиная с 1.
+PRIMARY KEY обозначает, что это поле является первичным ключом таблицы.
+FOREIGN KEY создает внешний ключ, связывающий поле Table1ID таблицы Table2 с полем ID таблицы Table1.
 {
     Console.WriteLine("Ошибка авторизации!");
 }
